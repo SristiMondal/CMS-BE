@@ -20,6 +20,10 @@ const Tasks = sequelize.define(
     },
     assigned_to: {
       type: DataTypes.UUID,
+      references: {
+        model: "Users",
+        key: "id",
+      },
     },
     due_date: {
       type: DataTypes.DATE,
@@ -27,10 +31,18 @@ const Tasks = sequelize.define(
     created_by: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
     },
     updated_by: {
       type: DataTypes.UUID,
       allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
     },
     status: {
       type: DataTypes.ENUM(
@@ -61,23 +73,22 @@ const Tasks = sequelize.define(
     },
     linked_task_id: {
       type: DataTypes.UUID,
+      references: {
+        model: "Tasks",
+        key: "id",
+      },
     },
     project_id: {
       type: DataTypes.UUID,
+      references: {
+        model: "Projects",
+        key: "id",
+      },
     },
   },
   {
     timestamps: true,
   }
 );
-
-(async () => {
-  try {
-    await Tasks.sync({ alter: true });
-    console.log("Tasks model syncronized successfully!!");
-  } catch (error) {
-    console.error("Error while synchronizing Tasks model", error);
-  }
-})();
 
 module.exports = Tasks;

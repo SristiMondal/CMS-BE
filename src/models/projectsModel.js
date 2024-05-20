@@ -18,6 +18,10 @@ const Projects = sequelize.define(
     },
     manager_id: {
       type: DataTypes.UUID,
+      references: {
+        model: "Users",
+        key: "id",
+      },
     },
     start_date: {
       type: DataTypes.DATEONLY,
@@ -32,14 +36,5 @@ const Projects = sequelize.define(
     timestamps: true,
   }
 );
-
-(async () => {
-  try {
-    await Projects.sync({ alter: true });
-    console.log("Projects model syncronized successfully!!");
-  } catch (error) {
-    console.error("Error while synchronizing Projects model", error);
-  }
-})();
 
 module.exports = Projects;

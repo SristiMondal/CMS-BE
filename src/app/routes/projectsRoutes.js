@@ -6,7 +6,7 @@ const {
   deleteProject,
   getProjects,
   getProjectById,
-} = require("../controllers/departmentsController");
+} = require("../controllers/projectsController");
 
 router.route("/").post(createProject).get(getProjects);
 

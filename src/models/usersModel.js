@@ -1,6 +1,7 @@
 const { sequelize } = require("../config/dbConfig");
 const { DataTypes } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
+const dayjs = require("dayjs");
 
 const Users = sequelize.define(
   "Users",
@@ -30,12 +31,24 @@ const Users = sequelize.define(
     },
     project_id: {
       type: DataTypes.UUID,
+      references: {
+        model: "Projects",
+        key: "id",
+      },
     },
     department_id: {
       type: DataTypes.UUID,
+      references: {
+        model: "Departments",
+        key: "id",
+      },
     },
     manager_id: {
       type: DataTypes.UUID,
+      references: {
+        model: "Users",
+        key: "id",
+      },
     },
     role: {
       type: DataTypes.STRING,
@@ -48,6 +61,10 @@ const Users = sequelize.define(
         isEmail: true,
       },
     },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     phone: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -55,20 +72,12 @@ const Users = sequelize.define(
     date_of_joining: {
       type: DataTypes.DATE,
       allowNull: false,
+      defaultValue: () => dayjs().format("YYYY-MM-DD HH:mm:ss"),
     },
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields with non-nullable constraints.
   }
 );
-
-(async () => {
-  try {
-    await Users.sync({ alter: true });
-    console.log("Users model syncronized successfully!!");
-  } catch (error) {
-    console.error("Error while synchronizing Users model", error);
-  }
-})();
 
 module.exports = Users;

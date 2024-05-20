@@ -17,6 +17,10 @@ const Departments = sequelize.define(
     },
     department_head_id: {
       type: DataTypes.UUID,
+      references: {
+        model: "Users",
+        key: "id",
+      },
     },
     number_of_employees: {
       type: DataTypes.INTEGER,
@@ -27,14 +31,5 @@ const Departments = sequelize.define(
     timestamps: true,
   }
 );
-
-(async () => {
-  try {
-    await Departments.sync({ alter: true });
-    console.log("Departments model syncronized successfully!!");
-  } catch (error) {
-    console.error("Error while synchronizing Departments model", error);
-  }
-})();
 
 module.exports = Departments;
