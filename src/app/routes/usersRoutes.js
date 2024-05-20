@@ -5,7 +5,8 @@ const {
   logout,
   register,
   deleteUser,
-  getUserDetails,
+  getUserDetailsById,
+  getAllUserDetails,
   updateUser,
 } = require("../controllers/usersController");
 
@@ -15,6 +16,11 @@ router.route("/logout").post(logout);
 router.route("/register").post(register);
 
 // Chain HTTP methods for the same route with parameter
-router.route("/:userId").get(getUserDetails).put(updateUser).delete(deleteUser);
+router
+  .route("/:userId")
+  .get(getUserDetailsById)
+  .put(updateUser)
+  .delete(deleteUser);
+router.route("/").get(getAllUserDetails);
 
 module.exports = router;

@@ -15,8 +15,17 @@ const {
   DELETE_USER_FAILURE,
   MISSING_USER_ID,
   DELETE_USER_SUCCESS,
+  USER_NOT_EXIST,
+  FETCH_SINGLE_USER_FAILURE,
+  FETCH_USER_SUCCESS,
+  FETCH_ALL_USERS_FAILURE,
+  NO_USER_AVAILABLE,
+  FETCH_ALL_USERS_SUCCESS,
+  UPDATE_USER_DETAIL_SUCCESS,
+  UPDATE_USER_DETAIL_FAILURE,
 } = require("../../utils/constant");
 const bcrypt = require("bcryptjs");
+const { validate } = require("uuid");
 const { generateToken } = require("../middlewares/authHandler");
 
 const register = async (request, response, next) => {
@@ -62,7 +71,7 @@ const register = async (request, response, next) => {
     }
   } catch (error) {
     console.error("Error during registration:", error);
-    response.status(RESPONSE_FAILURE).send({
+    return response.status(RESPONSE_FAILURE).send({
       success: false,
       statusCode: REGISTER_FAILURE,
       message: "An error occurred during registration",
@@ -134,20 +143,19 @@ const logout = async (request, response, next) => {
 
 const deleteUser = async (request, response, next) => {
   const userId = request.params.userId;
-  if (!userId) {
-    response.status(RESPONSE_FAILURE).send({
-      success: false,
-      statusCode: MISSING_USER_ID,
-      message: "Missing User ID",
-    });
-  }
   try {
+    if (!validate(userId)) {
+      return response.status(RESPONSE_FAILURE).send({
+        success: false,
+        statusCode: MISSING_USER_ID,
+        message: "Missing or Invalid User ID format",
+      });
+    }
     const existingUser = await Users.findOne({
       where: { id: userId },
     });
-    console.log(existingUser, "Sfee");
     if (!existingUser) {
-      response.status(RESPONSE_FAILURE).send({
+      return response.status(RESPONSE_FAILURE).send({
         success: false,
         statusCode: USER_NOT_EXIST,
         message: "User doesn't exist",
@@ -161,7 +169,7 @@ const deleteUser = async (request, response, next) => {
       message: "User deleted successfully",
     });
   } catch (error) {
-    response.status(RESPONSE_FAILURE).send({
+    return response.status(RESPONSE_FAILURE).send({
       success: false,
       statusCode: DELETE_USER_FAILURE,
       message: "An error occurred during deleting user",
@@ -169,12 +177,128 @@ const deleteUser = async (request, response, next) => {
   }
 };
 
-const getUserDetails = async (request, response, next) => {
-  response.send({ success: true, message: "operation failed logout" });
+const getUserDetailsById = async (request, response, next) => {
+  const userId = request.params.userId;
+  try {
+    if (!validate(userId)) {
+      return response.status(RESPONSE_FAILURE).send({
+        success: false,
+        statusCode: MISSING_USER_ID,
+        message: "Missing or Invalid User ID format",
+      });
+    }
+    const existingUser = await Users.findOne({
+      where: { id: userId },
+    });
+    if (!existingUser) {
+      return response.status(RESPONSE_FAILURE).send({
+        success: false,
+        statusCode: USER_NOT_EXIST,
+        message: "User doesn't exist",
+      });
+    }
+    return response.status(RESPONSE_SUCCESS).send({
+      success: true,
+      statusCode: FETCH_USER_SUCCESS,
+      data: existingUser,
+      message: "User details fetched successfully",
+    });
+  } catch (error) {
+    return response.status(RESPONSE_FAILURE).send({
+      success: false,
+      statusCode: FETCH_SINGLE_USER_FAILURE,
+      message: "An error occurred during fetching user details",
+    });
+  }
+};
+
+const getAllUserDetails = async (request, response, next) => {
+  try {
+    const existingUser = await Users.findAll();
+    if (!existingUser?.length) {
+      return response.status(RESPONSE_SUCCESS).send({
+        success: false,
+        statusCode: NO_USER_AVAILABLE,
+        data: [],
+        message: "No users available",
+      });
+    }
+    return response.status(RESPONSE_SUCCESS).send({
+      success: true,
+      statusCode: FETCH_ALL_USERS_SUCCESS,
+      data: existingUser,
+      message: "All users data fetched",
+    });
+  } catch (error) {
+    return response.status(RESPONSE_FAILURE).send({
+      success: false,
+      statusCode: FETCH_ALL_USERS_FAILURE,
+      message: "An error occurred during fetching users details",
+    });
+  }
 };
 
 const updateUser = async (request, response, next) => {
-  response.send({ success: true, message: "operation failed logout" });
+  const userId = request.params.userId;
+  try {
+    if (!validate(userId)) {
+      return response.status(RESPONSE_FAILURE).send({
+        success: false,
+        statusCode: MISSING_USER_ID,
+        message: "Missing or Invalid User ID format",
+      });
+    }
+    const existingUser = await Users.findOne({
+      where: { id: userId },
+    });
+    if (!existingUser) {
+      return response.status(RESPONSE_FAILURE).send({
+        success: false,
+        statusCode: USER_NOT_EXIST,
+        message: "User doesn't exist",
+      });
+    }
+    const {
+      first_name,
+      last_name,
+      phone,
+      date_of_joining,
+      address,
+      designation,
+      work_location,
+      project_id,
+      department_id,
+      manager_id,
+      role,
+    } = request.body;
+    const newUSerObj = {
+      ...existingUser,
+      first_name: first_name ?? existingUser?.first_name,
+      last_name: last_name ?? existingUser?.first_name,
+      phone: phone ?? existingUser?.phone,
+      date_of_joining: date_of_joining ?? existingUser?.date_of_joining,
+      address: address ?? existingUser?.address,
+      designation: designation ?? existingUser?.designation,
+      work_location: work_location ?? existingUser?.work_location,
+      project_id: project_id ?? existingUser?.project_id,
+      department_id: department_id ?? existingUser?.department_id,
+      manager_id: manager_id ?? existingUser?.manager_id,
+      role: role ?? existingUser?.role,
+    };
+    const updatedObj = await existingUser.update(newUSerObj);
+    return response.status(RESPONSE_SUCCESS).send({
+      success: true,
+      statusCode: UPDATE_USER_DETAIL_SUCCESS,
+      data: updatedObj,
+      message: "User details updated",
+    });
+  } catch (error) {
+    return response.status(RESPONSE_FAILURE).send({
+      success: false,
+      statusCode: UPDATE_USER_DETAIL_FAILURE,
+      message: "An error occurred during updating users details",
+    });
+  }
 };
 
 module.exports = {
@@ -182,6 +306,7 @@ module.exports = {
   login,
   logout,
   deleteUser,
-  getUserDetails,
+  getUserDetailsById,
+  getAllUserDetails,
   updateUser,
 };

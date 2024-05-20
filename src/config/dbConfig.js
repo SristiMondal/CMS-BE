@@ -11,6 +11,7 @@ const sequelize = new Sequelize(
     host: DB_HOST, // Hostname where the PostgreSQL server is running
     port: DB_PORT, // Port number where the PostgreSQL server is listening for connections
     dialect: "postgres", // communication bridge, Dialect or type of database being used (in this case, PostgreSQL)
+    logging: false,
   }
 );
 
