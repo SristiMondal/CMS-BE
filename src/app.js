@@ -29,17 +29,11 @@ app.get("/", (request, response, next) => {
 });
 
 // Error handling middleware
-app.use((error, request, response, next) => {
-  console.error("An error occurred:", error);
-  response
-    .status(500)
-    .json({ success: false, message: "Internal server error" });
+app.use((err, req, res, next) => {
+  console.error(err.message);
+  res
+    .status(responseCode?.["RESPONSE_FAILURE"]?.statusCode)
+    .json(errorHandler.makeErrorResponse);
 });
 
 module.exports = app;
-
-//to handle error in catch block
-app.use((err, req, res, next) => {
-  console.error(err.message);
-  res.status(RESPONSE_FAILURE).json(errorHandler.makeErrorResponse);
-});

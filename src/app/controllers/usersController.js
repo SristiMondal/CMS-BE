@@ -53,7 +53,7 @@ const login = async (request, response, next) => {
       return responseHandler(response, false, "INVALID_LOGIN_PASSWORD");
     }
     const token = await generateToken(user);
-    const data = { accessToken: token };
+    const data = { accesstoken: token };
     return responseHandler(response, true, "LOGIN_SUCCESS", data);
   } catch (error) {
     next(error);

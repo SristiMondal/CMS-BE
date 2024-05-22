@@ -64,6 +64,14 @@ responseCode = {
     statusCode: 409,
     message: "Invalid Password",
   },
+  MISSING_AUTH_TOKEN: {
+    statusCode: 410,
+    message: "Missing Authorization Token",
+  },
+  INVALID_AUTH_TOKEN: {
+    statusCode: 411,
+    message: "Invalid Authorization Token",
+  },
 
   RESPONSE_FAILURE: {
     statusCode: 500,
