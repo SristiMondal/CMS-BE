@@ -6,6 +6,7 @@ const usersRoutes = require("./app/routes/usersRoutes");
 const departmentsRoutes = require("./app/routes/departmentsRoutes");
 const projectsRoutes = require("./app/routes/projectsRoutes");
 const tasksRoutes = require("./app/routes/tasksRoutes");
+const errorHandler = require("./utils/errorHandler");
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -36,3 +37,9 @@ app.use((error, request, response, next) => {
 });
 
 module.exports = app;
+
+//to handle error in catch block
+app.use((err, req, res, next) => {
+  console.error(err.message);
+  res.status(RESPONSE_FAILURE).json(errorHandler.makeErrorResponse);
+});
