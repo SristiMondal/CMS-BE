@@ -74,6 +74,9 @@ const Users = sequelize.define(
       allowNull: false,
       defaultValue: () => dayjs().format("YYYY-MM-DD HH:mm:ss"),
     },
+    date_of_birth: {
+      type: DataTypes.DATE,
+    },
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields with non-nullable constraints.

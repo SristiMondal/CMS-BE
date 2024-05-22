@@ -52,7 +52,7 @@ const login = async (request, response, next) => {
     if (!isPasswordMatched) {
       return responseHandler(response, false, "INVALID_LOGIN_PASSWORD");
     }
-    const token = await generateToken(user.id);
+    const token = await generateToken(user);
     const data = { accessToken: token };
     return responseHandler(response, true, "LOGIN_SUCCESS", data);
   } catch (error) {
