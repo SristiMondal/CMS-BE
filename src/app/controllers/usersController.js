@@ -12,7 +12,7 @@ const register = async (request, response, next) => {
   }
   try {
     const existingUser = await Users.findOne({
-      where: { email: email.toLowerCase() },
+      where: { email: email },
     });
     if (existingUser) {
       return responseHandler(response, false, "USER_ALREADY_EXISTS");
@@ -21,7 +21,7 @@ const register = async (request, response, next) => {
       const hashedPassword = await bcrypt.hash(request.body.password, salt);
       const obj = {
         ...request.body,
-        email: email.toLowerCase(),
+        email: email,
         password: hashedPassword,
         first_name,
         last_name,
@@ -43,7 +43,7 @@ const login = async (request, response, next) => {
   }
   try {
     const user = await Users.findOne({
-      where: { email: email.toLowerCase() },
+      where: { email: email },
     });
     if (!user) {
       return responseHandler(response, false, "INVALID_LOGIN_EMAIL");
