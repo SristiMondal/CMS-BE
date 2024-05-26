@@ -50,6 +50,26 @@ responseCode = {
     statusCode: 212,
     message: "Fetched all departments",
   },
+  CREATE_PROJECT_SUCCESS: {
+    statusCode: 213,
+    message: "Project created successfully",
+  },
+  PROJECT_UPDATED_SUCCESS: {
+    statusCode: 214,
+    message: "Project updated successfully",
+  },
+  DELETE_PROJECT_SUCCESS: {
+    statusCode: 215,
+    message: "project deleted successfully",
+  },
+  GET_ALL_PROJECTS_SUCCESS: {
+    statusCode: 216,
+    message: "Fetched all projects",
+  },
+  FETCH_PROJECT_BY_ID_SUCCESS: {
+    statusCode: 217,
+    message: "Fetched all projects",
+  },
 
   //negative cases
   USER_ALREADY_EXISTS: {
@@ -111,6 +131,26 @@ responseCode = {
   NO_DEPARTMENT_EXISTS: {
     statusCode: 416,
     message: "No Department exists",
+  },
+  MISSING_PROJECT_NAME: {
+    statusCode: 417,
+    message: "Project name is required",
+  },
+  DUPLICATE_PROJECT_NAME: {
+    statusCode: 418,
+    message: "Project name must be unique",
+  },
+  MISSING_PROJECT_ID: {
+    statusCode: 419,
+    message: "Project id is missing or invalid",
+  },
+  INVALID_PROJECT_ID: {
+    statusCode: 420,
+    message: "Project id is not valid",
+  },
+  NO_PROJECT_EXISTS: {
+    statusCode: 421,
+    message: "No Project exists",
   },
 
   RESPONSE_FAILURE: {

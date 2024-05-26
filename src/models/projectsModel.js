@@ -1,3 +1,4 @@
+const dayjs = require("dayjs");
 const { sequelize } = require("../config/dbConfig");
 const { DataTypes } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
@@ -25,7 +26,7 @@ const Projects = sequelize.define(
     },
     start_date: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
+      defaultValue: () => dayjs().format("YYYY-MM-DD HH:mm:ss"),
     },
     number_of_employees: {
       type: DataTypes.INTEGER,
