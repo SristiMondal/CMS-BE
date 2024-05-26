@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/tasksController");
+const authHandler = require("../middlewares/authHandler");
 
 router
   .route("/")

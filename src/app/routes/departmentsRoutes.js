@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const departmentColtroller = require("../controllers/departmentsController");
+const authHandler = require("../middlewares/authHandler");
 
 router
   .route("/")
