@@ -30,6 +30,26 @@ responseCode = {
     statusCode: 207,
     message: "User details updated successfully",
   },
+  CREATE_DEPARTMENT_SUCCESS: {
+    statusCode: 208,
+    message: "Department created successfully",
+  },
+  DEPARTMENT_UPDATED_SUCCESS: {
+    statusCode: 209,
+    message: "Department updated successfully",
+  },
+  DELETE_DEPARTMENT_SUCCESS: {
+    statusCode: 210,
+    message: "Department deleted successfully",
+  },
+  GET_ALL_DEPARTMENTS_SUCCESS: {
+    statusCode: 211,
+    message: "Fetched all departments",
+  },
+  FETCH_DEPARTMENT_BY_ID_SUCCESS: {
+    statusCode: 212,
+    message: "Fetched all departments",
+  },
 
   //negative cases
   USER_ALREADY_EXISTS: {
@@ -71,6 +91,26 @@ responseCode = {
   INVALID_AUTH_TOKEN: {
     statusCode: 411,
     message: "Invalid Authorization Token",
+  },
+  MISSING_DEPARTMENT_NAME: {
+    statusCode: 412,
+    message: "Department name is required",
+  },
+  DUPLICATE_DEPARTMENT_NAME: {
+    statusCode: 413,
+    message: "Department name must be unique",
+  },
+  MISSING_DEPARTMENT_ID: {
+    statusCode: 414,
+    message: "Department id is missing or invalid",
+  },
+  INVALID_DEPARTMENT_ID: {
+    statusCode: 415,
+    message: "Department id is not valid",
+  },
+  NO_DEPARTMENT_EXISTS: {
+    statusCode: 416,
+    message: "No Department exists",
   },
 
   RESPONSE_FAILURE: {

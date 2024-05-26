@@ -12,7 +12,7 @@ const register = async (request, response, next) => {
   }
   try {
     const existingUser = await Users.findOne({
-      where: { email: email },
+      where: { email },
     });
     if (existingUser) {
       return responseHandler(response, false, "USER_ALREADY_EXISTS");
@@ -43,7 +43,7 @@ const login = async (request, response, next) => {
   }
   try {
     const user = await Users.findOne({
-      where: { email: email },
+      where: { email },
     });
     if (!user) {
       return responseHandler(response, false, "INVALID_LOGIN_EMAIL");
@@ -69,13 +69,13 @@ const logout = async (request, response, next) => {
 };
 
 const deleteUser = async (request, response, next) => {
-  const userId = request.params.userId;
+  const id = request.params.userId;
   try {
-    if (!validate(userId)) {
+    if (!validate(id)) {
       return responseHandler(response, false, "MISSING_USER_ID");
     }
     const existingUser = await Users.findOne({
-      where: { id: userId },
+      where: { id },
     });
     if (!existingUser) {
       return responseHandler(response, false, "USER_NOT_EXIST");
@@ -89,13 +89,13 @@ const deleteUser = async (request, response, next) => {
 };
 
 const getUserDetailsById = async (request, response, next) => {
-  const userId = request.params.userId;
+  const id = request.params.userId;
   try {
-    if (!validate(userId)) {
+    if (!validate(id)) {
       return responseHandler(response, false, "MISSING_USER_ID");
     }
     const existingUser = await Users.findOne({
-      where: { id: userId },
+      where: { id },
     });
     if (!existingUser) {
       return responseHandler(response, false, "USER_NOT_EXIST");
@@ -120,13 +120,13 @@ const getAllUserDetails = async (request, response, next) => {
 };
 
 const updateUser = async (request, response, next) => {
-  const userId = request.params.userId;
+  const id = request.params.userId;
   try {
-    if (!validate(userId)) {
+    if (!validate(id)) {
       return responseHandler(response, false, "MISSING_USER_ID");
     }
     const existingUser = await Users.findOne({
-      where: { id: userId },
+      where: { id },
     });
     if (!existingUser) {
       return responseHandler(response, false, "USER_NOT_EXIST");
