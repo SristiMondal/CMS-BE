@@ -4,13 +4,13 @@ const projectController = require("../controllers/projectsController");
 
 router
   .route("/")
-  .post(projectController.createProject)
-  .get(projectController.getProjects);
+  .post(authHandler.verifyToken, projectController.createProject)
+  .get(authHandler.verifyToken, projectController.getProjects);
 
 router
   .route("/:projectId")
-  .put(projectController.updateProject)
-  .delete(projectController.deleteProject)
-  .get(projectController.getProjectById);
+  .put(authHandler.verifyToken, projectController.updateProject)
+  .delete(authHandler.verifyToken, projectController.deleteProject)
+  .get(authHandler.verifyToken, projectController.getProjectById);
 
 module.exports = router;

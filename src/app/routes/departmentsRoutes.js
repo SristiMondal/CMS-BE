@@ -4,13 +4,13 @@ const departmentColtroller = require("../controllers/departmentsController");
 
 router
   .route("/")
-  .post(departmentColtroller.createDepartment)
-  .get(departmentColtroller.getDepartments);
+  .post(authHandler.verifyToken, departmentColtroller.createDepartment)
+  .get(authHandler.verifyToken, departmentColtroller.getDepartments);
 
 router
   .route("/:departmentId")
-  .put(departmentColtroller.updateDepartment)
-  .delete(departmentColtroller.deleteDepartment)
-  .get(departmentColtroller.getDepartmentById);
+  .put(authHandler.verifyToken, departmentColtroller.updateDepartment)
+  .delete(authHandler.verifyToken, departmentColtroller.deleteDepartment)
+  .get(authHandler.verifyToken, departmentColtroller.getDepartmentById);
 
 module.exports = router;
